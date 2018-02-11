@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FirebaseServiceService } from '../../services/firebase-service.service';
+import { FirebaseService } from '../../services/firebase-service.service';
 import { ProfileInfo } from '../../models/profile-info';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -9,18 +10,18 @@ import { ProfileInfo } from '../../models/profile-info';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(public firebaseService: FirebaseServiceService) { }
+  constructor(
+    public firebaseService: FirebaseService,
+    private router: Router) { }
 
   ngOnInit() {
   }
   
   loginFacebook() {
     this.firebaseService.loginWithFacebook().then((data: ProfileInfo) => {
-      console.log('success');
-      console.log(data.user.displayName,data.user.email);
+      this.router.navigate(['/home']);
     }, (responseFail: any) => {
-      console.log('fail');
-      console.log(responseFail);
+      this.router.navigate(['/']);
     });
   }
 }
